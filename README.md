@@ -1,7 +1,7 @@
 [![Apparence.io](/docs/assets/apparence_banner.png)](https://www.apparence.io/)
+![Quick Settings header](/docs/assets/quick_settings_header.png)
 
-
-# quick_settings
+# Quick Settings
 
 This Flutter plugin lets you create and react to your own custom tile in the Android Quick Settings panel.
 
@@ -10,7 +10,9 @@ All of the following features are available directly from your Dart code:
 - Handle clicks on your tile even when your app has been killed
 - React to user addition or removal of your tile
 
-Find more about the native Quick Settings APi on the [official documentation](https://developer.android.com/develop/ui/views/quicksettings-tiles).
+Using this plugin below Android 7.0 will have no effect.
+
+Find more about the native Quick Settings API on the [official documentation](https://developer.android.com/develop/ui/views/quicksettings-tiles).
 
 Native to Dart communication in an Android Service has been heavily inspired by [firebase_messaging](https://pub.dev/packages/firebase_messaging).
 
@@ -39,16 +41,17 @@ void main() {
 The callbacks `onTileClicked`, `onTileAdded` and `onTileRemoved` **must** be defined as **top-level functions**.
 After being setup, they will be called even if your app is not running.
 
-Note that you don't need to to define every callback if you are only interested in one of them for instance.
-
 `onTileClicked` is triggered when your tile is clicked:
+
 ![onTileClicked example](/docs/assets/on_tile_clicked.gif)
 
 `onTileAdded` is triggered when your tile is added to the active Quick Settings tiles:
+
 ![onTileAdded example](/docs/assets/on_tile_added.gif)
 It can either be triggered by the user when they interact with the system UI like above, or from a call to `QuickSettings.addTileToQuickSettings()` in your app.
 
 `onTileRemoved` is triggered when your tile is removed from the active Quick Settings tiles:
+
 ![onTileRemoved example](/docs/assets/on_tile_removed.gif)
 
 Let's see details on each of these callbacks.
@@ -72,16 +75,14 @@ Tile onTileClicked(Tile tile) {
     tile.drawableName = "alarm_off";
     AlarmManager.instance.unscheduleAlarm();
   } else {
-    // Tile has been clicked while it was inactive
-    // Set it to active and change its values accordingly
-    // Here: Enable the alarm
+    // 2.
     tile.label = "Alarm ON";
     tile.tileStatus = TileStatus.active;
     tile.subtitle = "6:30 AM";
     tile.drawableName = "alarm_check";
     AlarmManager.instance.scheduleAlarm();
   }
-  // Return the updated tile, or null if you don't want to update the tile
+  // 3.
   return tile;
 }
 ```
@@ -128,7 +129,7 @@ void onTileRemoved() {
   AlarmManager.instance.unscheduleAlarm();
 }
 ```
-_Don't disable the alarm in a real world scenario, please._
+In a more realistic scenario, you could schedule a notification, stop an ongoing chronometer or log the event to an analytics service.
 
 ⚠️ `onTileRemoved` should be a **top-level function**.
 
@@ -147,7 +148,9 @@ In Dart, a Tile has the following properties:
 `contentDescription` and `stateDescription` don't have much documentation on the [official documentation](https://developer.android.com/reference/android/service/quicksettings/Tile) but it seems to be related to accessibility.
 
 The `drawableName` should be a native Android drawable name. You can find several of them in the [example project](https://github.com/Apparence-io/quick_settings/example/android/app/src/main/res/drawable).
+
 ![Drawable example](/docs/assets/drawable_example.png)
+
 In the example project, you could use "alarm", "alarm_check", "alarm_off" or "quick_settings_base_icon" as your `drawableName` for example.
 
 ## Adding your tile to the Quick Settings panel programmatically
@@ -160,10 +163,11 @@ QuickSettings.addTileToQuickSettings(
     drawableName: "alarm",
 );
 ```
-This will prompt the following dialog:
+It will prompt below dialog:
+
 ![Add Tile dialog](/docs/assets/add_to_quick_settings.png)
 
-If the user already has it, this method has no effect.
+If the user already has the Tile, this method has no effect.
 The system might automatically deny if the user has already denied it several times.
 Before Android 13, this has no effect.
 
@@ -173,8 +177,10 @@ It will be mostly useful to know if your drawable has been correctly parsed by t
 ## Customizing the default tile in the system UI
 
 Your Tile will appear in the list of Quick Settings tiles with the following default appearance:
+
 ![Default Tile appearance](/docs/assets/default_appearance_base.png)
-There are 3 elements displayed: a title, subtitle and an icon.
+
+There are 3 elements displayed: a **title**, a **subtitle** and an **icon**.
 
 To customize the title, you must override `quick_settings_base_label` in your Android resources.
 If you don't have one, create the file `/android/app/src/main/res/values/strings.xml` and add the `quick_settings_base_label` String:
@@ -200,10 +206,12 @@ You can find it at `/android/app/src/main/AndroidManifest.xml`.
 </manifest>
 ```
 
-The default icon can also be overridden by providing your own drawable with the name `quick_settings_base_icon.xml`.
+The default icon can also be overridden by providing your own drawable with the name `quick_settings_base_icon.xml` as it is done in the example project.
+
 ![Default drawable](/docs/assets/default_icon.png)
 
 Here is the customized appearance:
+
 ![Customized appearance](/docs/assets/default_appearance_updated.png)
 
 ## Roadmap

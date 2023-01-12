@@ -1,6 +1,7 @@
 package io.apparence.quick_settings
 
 
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -11,6 +12,7 @@ import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.core.graphics.drawable.IconCompat
 import io.apparence.quick_settings.pigeon.TileStatus
 import io.flutter.embedding.engine.FlutterShellArgs
 import kotlinx.coroutines.CoroutineScope
@@ -22,24 +24,28 @@ import java.util.*
 @RequiresApi(Build.VERSION_CODES.N)
 class QuickSettingsService : TileService() {
     private val dartTile
-        get() = io.apparence.quick_settings.pigeon.Tile(
-            qsTile.label.toString(),
-            when (qsTile.state) {
-                Tile.STATE_ACTIVE -> {
-                    TileStatus.ACTIVE
-                }
-                Tile.STATE_INACTIVE -> {
-                    TileStatus.INACTIVE
-                }
-                else -> {
-                    TileStatus.UNAVAILABLE
-                }
-            },
-            drawableName = qsTile.icon.toString(),
-            stateDescription = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) qsTile.stateDescription?.toString() else null,
-            contentDescription = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) qsTile.contentDescription?.toString() else null,
-            subtitle = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) qsTile.subtitle?.toString() else null
-        )
+        @SuppressLint("RestrictedApi")
+        get() =
+            io.apparence.quick_settings.pigeon.Tile(
+                qsTile.label.toString(),
+                when (qsTile.state) {
+                    Tile.STATE_ACTIVE -> {
+                        TileStatus.ACTIVE
+                    }
+                    Tile.STATE_INACTIVE -> {
+                        TileStatus.INACTIVE
+                    }
+                    else -> {
+                        TileStatus.UNAVAILABLE
+                    }
+                },
+                drawableName = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) resources.getResourceEntryName(
+                    qsTile.icon.resId
+                ) else resources.getResourceEntryName(IconCompat.createFromIcon(qsTile.icon)!!.resId),
+                stateDescription = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) qsTile.stateDescription?.toString() else null,
+                contentDescription = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) qsTile.contentDescription?.toString() else null,
+                subtitle = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) qsTile.subtitle?.toString() else null
+            )
 
     override fun onBind(intent: Intent?): IBinder? {
         requestListeningState(
