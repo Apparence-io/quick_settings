@@ -51,7 +51,6 @@ void main() {
     onTileAdded: onTileAdded,
     onTileRemoved: onTileRemoved,
   );
-
   runApp(const MyApp());
 }
 

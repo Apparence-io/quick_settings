@@ -5,6 +5,9 @@
 
 This Flutter plugin lets you create and react to your own custom tile in the Android Quick Settings panel.
 
+⚠️ This plugin features **only** work on **Android** ⚠️
+On other platforms, it does nothing.
+
 All of the following features are available directly from your Dart code:
 - Ask the user to add your custom tile
 - Handle clicks on your tile even when your app has been killed

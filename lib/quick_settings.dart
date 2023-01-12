@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:quick_settings/src/quick_settings_platform.dart';
 
 import 'src/quick_settings_interface.dart';
@@ -25,15 +28,19 @@ class QuickSettings {
     OnTileAdded? onTileAdded,
     OnTileRemoved? onTileRemoved,
   }) {
-    QuickSettingsPlatform.instance.registerHandlers(
-      onTileClicked: onTileClicked,
-      onTileAdded: onTileAdded,
-      onTileRemoved: onTileRemoved,
-    );
-    if (onTileAdded == null && onTileRemoved == null && onTileClicked == null) {
-      _instance.disableTile();
-    } else {
-      _instance.enableTile();
+    if (!kIsWeb && Platform.isAndroid) {
+      QuickSettingsPlatform.instance.registerHandlers(
+        onTileClicked: onTileClicked,
+        onTileAdded: onTileAdded,
+        onTileRemoved: onTileRemoved,
+      );
+      if (onTileAdded == null &&
+          onTileRemoved == null &&
+          onTileClicked == null) {
+        _instance.disableTile();
+      } else {
+        _instance.enableTile();
+      }
     }
   }
 
@@ -45,20 +52,26 @@ class QuickSettings {
   static Future<void> addTileToQuickSettings({
     required String label,
     required String drawableName,
-  }) {
-    return _instance.addTileToQuickSettings(label, drawableName);
+  }) async {
+    if (!kIsWeb && Platform.isAndroid) {
+      await _instance.addTileToQuickSettings(label, drawableName);
+    }
   }
 
   /// Enable the service associated with your Tile. Your Tile will be present in
   /// the list of third party tiles and the user will be able to add it to its
   /// Quick Settings panel.
-  static Future<void> enableTile() {
-    return _instance.enableTile();
+  static Future<void> enableTile() async {
+    if (!kIsWeb && Platform.isAndroid) {
+      await _instance.enableTile();
+    }
   }
 
   /// Disable the service associated with your Tile. Your tile will be removed
   /// from the list of third party tiles and from the Quick Settings panel.
-  static Future<void> disableTile() {
-    return _instance.disableTile();
+  static Future<void> disableTile() async {
+    if (!kIsWeb && Platform.isAndroid) {
+      await _instance.disableTile();
+    }
   }
 }
