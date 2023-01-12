@@ -41,6 +41,8 @@ void main() {
 The callbacks `onTileClicked`, `onTileAdded` and `onTileRemoved` **must** be defined as **top-level functions**.
 After being setup, they will be called even if your app is not running.
 
+If none of them is provided, your Tile and its associated service are disabled.
+
 `onTileClicked` is triggered when your tile is clicked:
 
 ![onTileClicked example](/docs/assets/on_tile_clicked.gif)

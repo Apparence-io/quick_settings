@@ -1,6 +1,5 @@
 package io.apparence.quick_settings
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.StatusBarManager
 import android.content.ComponentName
@@ -10,7 +9,6 @@ import android.util.Log
 import androidx.core.graphics.drawable.IconCompat
 import io.apparence.quick_settings.pigeon.AddTileResult
 import io.apparence.quick_settings.pigeon.QuickSettingsInterface
-import io.apparence.quick_settings.pigeon.Tile
 import io.flutter.embedding.engine.FlutterShellArgs
 
 class QuickSettingsImpl : QuickSettingsInterface {
@@ -22,24 +20,27 @@ class QuickSettingsImpl : QuickSettingsInterface {
         callback: (AddTileResult) -> Unit
     ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            val statusBarService = activity!!.getSystemService(
-                StatusBarManager::class.java
-            )
             val componentName = ComponentName(
                 activity!!, QuickSettingsService::class.java
             )
+            // Enable the service if it has not been enabled yet
             val enableFlag: Int = PackageManager.COMPONENT_ENABLED_STATE_ENABLED
             activity!!.packageManager.setComponentEnabledSetting(
                 componentName, enableFlag, PackageManager.DONT_KILL_APP
             )
 
-            val drawableResourceId = QuickSettingsPlugin.drawableResourceIdFromName(activity!!, drawableName)
+            val drawableResourceId =
+                QuickSettingsPlugin.drawableResourceIdFromName(activity!!, drawableName)
             if (drawableResourceId == 0) {
                 return callback(AddTileResult(false, "Icon $drawableName not found"));
             }
 
             val icon = IconCompat.createWithResource(
                 activity!!, drawableResourceId
+            )
+
+            val statusBarService = activity!!.getSystemService(
+                StatusBarManager::class.java
             )
             statusBarService.requestAddTileService(componentName,
                 title,
@@ -49,6 +50,36 @@ class QuickSettingsImpl : QuickSettingsInterface {
             }
             // TODO Android API is broken, the callback is never called so we can't know for sure if it worked or not
             return callback(AddTileResult(true));
+        }
+    }
+
+    /**
+     * Enable the Quick Settings service and its associated Tile.
+     */
+    override fun enableTile() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val componentName = ComponentName(
+                activity!!, QuickSettingsService::class.java
+            )
+            val enableFlag: Int = PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+            activity!!.packageManager.setComponentEnabledSetting(
+                componentName, enableFlag, PackageManager.DONT_KILL_APP
+            )
+        }
+    }
+
+    /**
+     * Disable the Quick Settings service and its associated Tile.
+     */
+    override fun disableTile() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val componentName = ComponentName(
+                activity!!, QuickSettingsService::class.java
+            )
+            val disableFlag: Int = PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+            activity!!.packageManager.setComponentEnabledSetting(
+                componentName, disableFlag, PackageManager.DONT_KILL_APP
+            )
         }
     }
 

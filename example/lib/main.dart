@@ -4,7 +4,6 @@ import 'package:quick_settings_example/alarm_manager.dart';
 
 // ignore_for_file: avoid_print
 
-
 Tile onTileClicked(Tile tile) {
   final oldStatus = tile.tileStatus;
   if (oldStatus == TileStatus.active) {
@@ -46,6 +45,7 @@ void onTileRemoved() {
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+
   QuickSettings.setup(
     onTileClicked: onTileClicked,
     onTileAdded: onTileAdded,
@@ -70,17 +70,33 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Column(children: [
-          ElevatedButton(
-            child: const Text("Add Tile to QuickSettings"),
-            onPressed: () {
-              QuickSettings.addTileToQuickSettings(
-                label: "Alarm Toggle",
-                drawableName: "alarm",
-              );
-            },
-          ),
-        ]),
+        body: Center(
+          child: Column(children: [
+            ElevatedButton(
+              child: const Text("Enable Tile"),
+              onPressed: () {
+                QuickSettings.enableTile();
+              },
+            ),
+            const SizedBox(height: 20),
+            OutlinedButton(
+              child: const Text("Disable Tile"),
+              onPressed: () {
+                QuickSettings.disableTile();
+              },
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              child: const Text("Add Tile to QuickSettings (Android 13)"),
+              onPressed: () {
+                QuickSettings.addTileToQuickSettings(
+                  label: "Alarm Toggle",
+                  drawableName: "alarm",
+                );
+              },
+            ),
+          ]),
+        ),
       ),
     );
   }

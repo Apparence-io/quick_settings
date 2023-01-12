@@ -30,6 +30,11 @@ class QuickSettings {
       onTileAdded: onTileAdded,
       onTileRemoved: onTileRemoved,
     );
+    if (onTileAdded == null && onTileRemoved == null && onTileClicked == null) {
+      _instance.disableTile();
+    } else {
+      _instance.enableTile();
+    }
   }
 
   /// Asks to add this tile to QuickSettings of the user.
@@ -42,5 +47,18 @@ class QuickSettings {
     required String drawableName,
   }) {
     return _instance.addTileToQuickSettings(label, drawableName);
+  }
+
+  /// Enable the service associated with your Tile. Your Tile will be present in
+  /// the list of third party tiles and the user will be able to add it to its
+  /// Quick Settings panel.
+  static Future<void> enableTile() {
+    return _instance.enableTile();
+  }
+
+  /// Disable the service associated with your Tile. Your tile will be removed
+  /// from the list of third party tiles and from the Quick Settings panel.
+  static Future<void> disableTile() {
+    return _instance.disableTile();
   }
 }

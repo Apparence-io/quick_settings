@@ -35,6 +35,10 @@ abstract class QuickSettingsInterface {
   @async
   AddTileResult addTileToQuickSettings(String title, String drawableName);
 
+  void enableTile();
+
+  void disableTile();
+
   void startBackgroundIsolate(
     int pluginCallbackHandle,
     int? onStatusChangedHandle,
