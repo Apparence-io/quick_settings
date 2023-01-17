@@ -50,10 +50,13 @@ If none of them is provided, your Tile and its associated service are disabled.
 
 ![onTileClicked example](/docs/assets/on_tile_clicked.gif)
 
+
 `onTileAdded` is triggered when your tile is added to the active Quick Settings tiles:
 
 ![onTileAdded example](/docs/assets/on_tile_added.gif)
+
 It can either be triggered by the user when they interact with the system UI like above, or from a call to `QuickSettings.addTileToQuickSettings()` in your app.
+
 
 `onTileRemoved` is triggered when your tile is removed from the active Quick Settings tiles:
 
