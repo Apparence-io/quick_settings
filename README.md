@@ -1,5 +1,5 @@
-[![Apparence.io](/docs/assets/apparence_banner.png)](https://www.apparence.io/)
-![Quick Settings header](/docs/assets/quick_settings_header.png)
+[![Apparence.io](/media/apparence_banner.png)](https://www.apparence.io/)
+![Quick Settings header](/media/quick_settings_header.png)
 
 # Quick Settings
 
@@ -48,19 +48,19 @@ If none of them is provided, your Tile and its associated service are disabled.
 
 `onTileClicked` is triggered when your tile is clicked:
 
-![onTileClicked example](/docs/assets/on_tile_clicked.gif)
+![onTileClicked example](media/on_tile_clicked.gif)
 
 
 `onTileAdded` is triggered when your tile is added to the active Quick Settings tiles:
 
-![onTileAdded example](/docs/assets/on_tile_added.gif)
+![onTileAdded example](media/on_tile_added.gif)
 
 It can either be triggered by the user when they interact with the system UI like above, or from a call to `QuickSettings.addTileToQuickSettings()` in your app.
 
 
 `onTileRemoved` is triggered when your tile is removed from the active Quick Settings tiles:
 
-![onTileRemoved example](/docs/assets/on_tile_removed.gif)
+![onTileRemoved example](media/on_tile_removed.gif)
 
 Let's see details on each of these callbacks.
 
@@ -157,7 +157,7 @@ In Dart, a Tile has the following properties:
 
 The `drawableName` should be a native Android drawable name. You can find several of them in the [example project](https://github.com/Apparence-io/quick_settings/example/android/app/src/main/res/drawable).
 
-![Drawable example](/docs/assets/drawable_example.png)
+![Drawable example](media/drawable_example.png)
 
 In the example project, you could use "alarm", "alarm_check", "alarm_off" or "quick_settings_base_icon" as your `drawableName` for example.
 
@@ -173,7 +173,7 @@ QuickSettings.addTileToQuickSettings(
 ```
 It will prompt below dialog:
 
-![Add Tile dialog](/docs/assets/add_to_quick_settings.png)
+![Add Tile dialog](media/add_to_quick_settings.png)
 
 If the user already has the Tile, this method has no effect.
 The system might automatically deny if the user has already denied it several times.
@@ -186,7 +186,7 @@ It will be mostly useful to know if your drawable has been correctly parsed by t
 
 Your Tile will appear in the list of Quick Settings tiles with the following default appearance:
 
-![Default Tile appearance](/docs/assets/default_appearance_base.png)
+![Default Tile appearance](media/default_appearance_base.png)
 
 There are 3 elements displayed: a **title**, a **subtitle** and an **icon**.
 
@@ -216,14 +216,14 @@ You can find it at `/android/app/src/main/AndroidManifest.xml`.
 
 The default icon can also be overridden by providing your own drawable with the name `quick_settings_base_icon.xml` as it is done in the example project.
 
-![Default drawable](/docs/assets/default_icon.png)
+![Default drawable](media/default_icon.png)
 
 Here is the customized appearance:
 
-![Customized appearance](/docs/assets/default_appearance_updated.png)
+![Customized appearance](media/default_appearance_updated.png)
 
 ## Roadmap
 
 If you are using this plugin and would like something added, please [create an issue](https://github.com/Apparence-io/quick_settings/issues/new).
 
-[![Apparence.io](/docs/assets/apparence_banner.png)](https://www.apparence.io/)
+[![Apparence.io](media/apparence_banner.png)](https://www.apparence.io/)

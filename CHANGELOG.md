@@ -1,3 +1,6 @@
+## 1.0.0+1
+* 📝 Update documentation
+
 ## 1.0.0
 
 * Ask to add your Tile to Quick Settings

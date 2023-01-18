@@ -5,13 +5,26 @@ import 'package:quick_settings/src/quick_settings_platform.dart';
 
 import 'src/quick_settings_interface.dart';
 
-export 'src/quick_settings_interface.dart' show Tile, TileStatus;
+export 'src/quick_settings_interface.dart' show Tile, TileStatus, AddTileResult;
 
+/// Tile clicked callback.
+/// If you return a different Tile, it will be used to refresh the appearance of
+/// your tile.
 typedef OnTileClicked = Tile? Function(Tile tile);
+
+/// Tile added callback.
+/// It can be triggered either when a Tile is dragged from the list of possible
+/// tiles into the active list of tiles or as a result of
+/// [QuickSettings.addTileToQuickSettings] (Android 13).
 typedef OnTileAdded = Tile? Function(Tile tile);
+
+/// Tile removed callback. It is called when the tile is removed from the active
+/// list of tiles.
+/// Note that it is too late to update the Tile.
 typedef OnTileRemoved = void Function();
 
 class QuickSettings {
+  /// Bridge between native and dart
   static QuickSettingsInterface? _quickSettingsInterface;
 
   static QuickSettingsInterface get _instance {
@@ -49,12 +62,14 @@ class QuickSettings {
   /// If the user already has it, this method has no effect.
   /// The system might automatically deny if the user has already denied it
   /// several times.
-  static Future<void> addTileToQuickSettings({
+  static Future<AddTileResult?> addTileToQuickSettings({
     required String label,
     required String drawableName,
   }) async {
     if (!kIsWeb && Platform.isAndroid) {
-      await _instance.addTileToQuickSettings(label, drawableName);
+      return _instance.addTileToQuickSettings(label, drawableName);
+    } else {
+      return Future.value(null);
     }
   }
 
