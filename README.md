@@ -42,7 +42,10 @@ void main() {
 }
 ```
 The callbacks `onTileClicked`, `onTileAdded` and `onTileRemoved` **must** be defined as **top-level functions**.
-After being setup, they will be called even if your app is not running.
+⚠️ They should also be annotated with `@pragma("vm:entry-point")` to avoid being tree-shaken by the Dart compiler in release mode.
+See more details [here](https://mrale.ph/dartvm/compiler/aot/entry_point_pragma.html).
+
+After being setup, these callbacks will be called even if your app is not running.
 
 If none of them is provided, your Tile and its associated service are disabled.
 
@@ -99,7 +102,7 @@ The above implementation use the `TileStatus` to make different actions:
 2. Tile has been clicked while it was inactive. We set it to active with the appropriate values and we enable the alarm.
 3. Return the update tile. You can also return null if you don't want to update it.
 
-⚠️ `onTileClicked` should be a **top-level function**.
+⚠️ `onTileClicked` should be a **top-level function** annotated with `@pragma("vm:entry-point")`.
 
 ### Tile added
 
@@ -121,7 +124,7 @@ Tile onTileAdded(Tile tile) {
 In a more realistic scenario, you would probably fetch the current status of the alarm and update the Tile with either an active status if it is set or an inactive status otherwise.
 You could also display the current hour of the alarm.
 
-⚠️ `onTileAdded` should be a **top-level function**.
+⚠️ `onTileAdded` should be a **top-level function** annotated with `@pragma("vm:entry-point")`.
 
 ### Tile removed
 
@@ -139,7 +142,7 @@ void onTileRemoved() {
 ```
 In a more realistic scenario, you could schedule a notification, stop an ongoing chronometer or log the event to an analytics service.
 
-⚠️ `onTileRemoved` should be a **top-level function**.
+⚠️ `onTileRemoved` should be a **top-level function** annotated with `@pragma("vm:entry-point")`.
 
 ## Customizing your Tile
 
