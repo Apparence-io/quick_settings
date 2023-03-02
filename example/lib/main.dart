@@ -4,6 +4,7 @@ import 'package:quick_settings_example/alarm_manager.dart';
 
 // ignore_for_file: avoid_print
 
+@pragma("vm:entry-point")
 Tile onTileClicked(Tile tile) {
   final oldStatus = tile.tileStatus;
   if (oldStatus == TileStatus.active) {
@@ -29,6 +30,7 @@ Tile onTileClicked(Tile tile) {
   return tile;
 }
 
+@pragma("vm:entry-point")
 Tile onTileAdded(Tile tile) {
   tile.label = "Alarm ON";
   tile.tileStatus = TileStatus.active;
@@ -38,6 +40,7 @@ Tile onTileAdded(Tile tile) {
   return tile;
 }
 
+@pragma("vm:entry-point")
 void onTileRemoved() {
   print("Tile removed");
   AlarmManager.instance.unscheduleAlarm();

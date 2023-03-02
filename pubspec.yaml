@@ -1,6 +1,6 @@
 name: quick_settings
 description: Create and handle your own custom Tile in Android Quick Settings
-version: 1.0.0+2
+version: 1.0.1
 homepage: https://github.com/Apparence-io/quick_settings
 repository: https://github.com/Apparence-io/quick_settings
 issue_tracker: https://github.com/Apparence-io/quick_settings/issues
