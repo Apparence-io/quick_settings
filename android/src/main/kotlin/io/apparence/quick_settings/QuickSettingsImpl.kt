@@ -17,7 +17,7 @@ class QuickSettingsImpl : QuickSettingsInterface {
     override fun addTileToQuickSettings(
         title: String,
         drawableName: String,
-        callback: (AddTileResult) -> Unit
+        callback: (Result<AddTileResult>) -> Unit
     ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val componentName = ComponentName(
@@ -32,7 +32,14 @@ class QuickSettingsImpl : QuickSettingsInterface {
             val drawableResourceId =
                 QuickSettingsPlugin.drawableResourceIdFromName(activity!!, drawableName)
             if (drawableResourceId == 0) {
-                return callback(AddTileResult(false, "Icon $drawableName not found"));
+                return callback(
+                    Result.success(
+                        AddTileResult(
+                            false,
+                            "Icon $drawableName not found"
+                        )
+                    )
+                );
             }
 
             val icon = IconCompat.createWithResource(
@@ -49,7 +56,7 @@ class QuickSettingsImpl : QuickSettingsInterface {
                 Log.d("QS", "requestAddTileService result: $result")
             }
             // TODO Android API is broken, the callback is never called so we can't know for sure if it worked or not
-            return callback(AddTileResult(true));
+            return callback(Result.success(AddTileResult(true)));
         }
     }
 

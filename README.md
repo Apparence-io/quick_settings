@@ -26,6 +26,32 @@ Start by adding this plugin to your `pubspec.yaml`:
 flutter pub add quick_settings
 ```
 
+You must set minSdkVersion to 21 or more in your `android/build.gradle`:
+``` gradle
+android {
+    defaultConfig {
+        minSdkVersion 21
+    }
+}
+
+```
+
+ℹ️ If you encounter conflicts with **kotlin sdlib**, here is a couple things you can do to fix them:
+- migrate to kotlin 1.8.0+
+```
+buildscript {
+    ext.kotlin_version = '1.8.0'
+}
+```
+- migrate to `kotlin-stdlib` instead of `kotlin-stdlib-jdk7` or `kotlin-stdlib-jdk8` in your `android/app/build.gradle` file
+```
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
+```
+
+Find more about this issue [here](https://stackoverflow.com/a/75298544/3545278).
+
 ## Usage
 
 A good place to setup `quick_settings` is in your `main()` function:
@@ -147,14 +173,14 @@ In a more realistic scenario, you could schedule a notification, stop an ongoing
 ## Customizing your Tile
 
 In Dart, a Tile has the following properties:
-|Name|Android version|Description|
-|-|-|-|
-|`label`|7+|Label of your tile. It is always displayed to the user.|
-|`tileStatus`|7+|Can be one of the following: active, inactive or unavailable. When a tile is unavailable, it can't be clicked.|
-|`contentDescription`|7+|Content description for the tile.|
-|`stateDescription`|11+|State description for the tile.|
-|`drawableName`|7+|Your native Android drawable name. This icon is expected to be white on alpha, and may be tinted by the system to match it's theme.|
-|`subtitle`|10+|Subtitle for the tile. It might be visible to the user when the Quick Settings panel is fully open.|
+| Name                 | Android version | Description                                                                                                                         |
+| -------------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `label`              | 7+              | Label of your tile. It is always displayed to the user.                                                                             |
+| `tileStatus`         | 7+              | Can be one of the following: active, inactive or unavailable. When a tile is unavailable, it can't be clicked.                      |
+| `contentDescription` | 7+              | Content description for the tile.                                                                                                   |
+| `stateDescription`   | 11+             | State description for the tile.                                                                                                     |
+| `drawableName`       | 7+              | Your native Android drawable name. This icon is expected to be white on alpha, and may be tinted by the system to match it's theme. |
+| `subtitle`           | 10+             | Subtitle for the tile. It might be visible to the user when the Quick Settings panel is fully open.                                 |
 
 `contentDescription` and `stateDescription` don't have much documentation on the [official documentation](https://developer.android.com/reference/android/service/quicksettings/Tile) but it seems to be related to accessibility.
 
