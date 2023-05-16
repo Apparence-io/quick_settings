@@ -1,6 +1,6 @@
 name: quick_settings
 description: Create and handle your own custom Tile in Android Quick Settings
-version: 1.0.0+2
+version: 1.0.1
 homepage: https://github.com/Apparence-io/quick_settings
 repository: https://github.com/Apparence-io/quick_settings
 issue_tracker: https://github.com/Apparence-io/quick_settings/issues
@@ -12,13 +12,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  plugin_platform_interface: ^2.1.3
+  plugin_platform_interface: ^2.1.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.1
-  pigeon: ^6.0.3
+  pigeon: ^10.0.0
 
 flutter:
   # This section identifies this Flutter project as a plugin project.
